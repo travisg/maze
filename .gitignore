@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+# editor
+*.swp
+.vscode
+
+compile_commands.json
+maze
