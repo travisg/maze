@@ -9,3 +9,7 @@ in my childhood on a Kaypro II z80 CP/M machine on a Epson MX-100 dot matrix lin
 What's amazing (pun intended) about the algorihm is it operates one line at a time and uses no state outside of the current line. It's O(N^2)
 but scales mainly with the *width* of the maze, not the height. Of course on a modern machine, in C++ it runs nearly instantaneously, but
 could easily scale to a ridiculously large maze.
+
+# Addendum
+Turns out the maze BASIC program I had used a long time ago doesn't use this algorithm at all, but is more of a random walker algorithm.
+See writeup at https://medium.com/cook-php/amazing-programming-code-de34f5007c7a.
