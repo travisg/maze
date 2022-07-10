@@ -15,6 +15,7 @@ static bool print_set_num = false;
 
 struct cell {
     int set;
+    bool open_up;
     bool open_right;
     bool open_down;
 };
@@ -35,7 +36,7 @@ struct row {
     void replace_set(int new_set, int old_set);
 
     // count the number of cells in this set that has a downward opening
-    bool set_has_downward_opening(int set);
+    bool set_has_downward_or_upward_opening(int set);
 
     // pick a random cell in this set
     cell *pick_random_in_set(int set);
@@ -54,6 +55,7 @@ int main() {
             // first row, assign each a separate set
             for (auto &c : r.cells) {
                 c.set = next_set++;
+                c.open_up = true;
                 c.open_right = false;
                 c.open_down = false;
             }
@@ -68,6 +70,10 @@ int main() {
             for (auto &c : r.cells) {
                 if (!c.open_down) {
                     c.set = next_set++; // new set if the ceiling isn't open
+                    c.open_up = false;
+                } else {
+                    // we had an opening from above, remember this
+                    c.open_up = true;
                 }
 
                 // default to closed right wall and downward opening
@@ -112,13 +118,13 @@ int main() {
             }
 
             // make another pass through and make sure every set has at least one
-            // downward opening
+            // upward or downward opening
             for (auto &c : r.cells) {
                 // if this cell has an opening, then by definition this set does
-                if (c.open_down) continue;
+                if (c.open_down || c.open_up) continue;
 
                 // see if the set has an opening in any other cell and if not open it
-                if (!r.set_has_downward_opening(c.set)) {
+                if (!r.set_has_downward_or_upward_opening(c.set)) {
                     auto *cp = r.pick_random_in_set(c.set);
                     assert(cp);
                     cp->open_down = true;
@@ -154,9 +160,9 @@ void row::replace_set(int new_set, int old_set) {
     }
 }
 
-bool row::set_has_downward_opening(int set) {
+bool row::set_has_downward_or_upward_opening(int set) {
     for (auto &c : cells) {
-        if (c.set == set && c.open_down) {
+        if (c.set == set && (c.open_down || c.open_up)) {
             return true;
         }
     }
