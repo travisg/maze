@@ -1,4 +1,4 @@
-CFLAGS := -Wall -Wextra -O
+CFLAGS := -Wall -Wextra -O -std=c++11
 SRCS := main.cpp
 TARGET := maze
 DEPS := $(TARGET).d

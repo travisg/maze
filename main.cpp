@@ -55,7 +55,7 @@ int main() {
             // first row, assign each a separate set
             for (auto &c : r.cells) {
                 c.set = next_set++;
-                c.open_up = true;
+                c.open_up = false;
                 c.open_right = false;
                 c.open_down = false;
             }
